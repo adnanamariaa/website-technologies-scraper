@@ -25,10 +25,28 @@ def fetch_url(url):
             "error": str(e),
         }
 
+def fetch_domain(domain):
+    prefixes = ["https://", "https://www.", "http://"]
+    result = None
+
+    for prefix in prefixes:
+        url = prefix + domain
+        print(url)
+        result = fetch_url(url)
+        if result["error"] is None:
+            return result
+    return result
+
 
 if __name__ == "__main__":
-    result = fetch_url("https://somalidisablesupport.com/")
-    print(result["status"], result["final_url"], result["error"])
-
-    result = fetch_url("https://nuexista-blabla123.com")
-    print(result["status"], result["final_url"], result["error"])
+    for domain in ["somalidisablesupport.com", "disneystore.com",
+                   "joseph-herber.business.site", "nuexista-blabla123.com", "jcmobilecigars.com"]:
+        result = fetch_domain(domain)
+        print(
+            domain, 
+            "->", 
+            result["status"], 
+            result["final_url"], 
+            len(result["html"]) if result["html"] is not None else 0,
+            result["error"])
+        print()
